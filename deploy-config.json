@@ -1,0 +1,85 @@
+{
+  "appName": "Atout Solaire",
+  "version": "1.0.0",
+  "easypanel": {
+    "services": [
+      {
+        "name": "frontend",
+        "type": "app",
+        "build": {
+          "context": "./frontend",
+          "dockerfile": "Dockerfile"
+        },
+        "port": 3000,
+        "domain": "atoutsolaire.ma",
+        "env": {
+          "NEXT_PUBLIC_API_URL": "https://api.atoutsolaire.ma",
+          "NEXT_PUBLIC_SITE_URL": "https://atoutsolaire.ma",
+          "NEXT_PUBLIC_GA_ID": "G-XXXXXXXXXX",
+          "NEXT_PUBLIC_FB_PIXEL_ID": "XXXXXXXXXXXX",
+          "NEXT_PUBLIC_WHATSAPP_NUMBER": "212631038760",
+          "NEXT_PUBLIC_CONTACT_PHONE": "0523343993",
+          "NEXT_PUBLIC_CONTACT_EMAIL": "solaireatout@gmail.com"
+        }
+      },
+      {
+        "name": "backend",
+        "type": "app",
+        "build": {
+          "context": "./backend",
+          "dockerfile": "Dockerfile"
+        },
+        "port": 8000,
+        "domain": "api.atoutsolaire.ma",
+        "env": {
+          "APP_NAME": "Atout Solaire API",
+          "ENVIRONMENT": "production",
+          "DEBUG": "false",
+          "DATABASE_URL": "postgresql+asyncpg://atoutsolaire:${DB_PASSWORD}@db:5432/atoutsolaire",
+          "SMTP_HOST": "smtp.gmail.com",
+          "SMTP_PORT": "587",
+          "SMTP_USER": "your-email@gmail.com",
+          "SMTP_PASSWORD": "your-app-password",
+          "ADMIN_EMAIL": "solaireatout@gmail.com",
+          "SECRET_KEY": "your-super-secret-key-change-in-production",
+          "CORS_ORIGINS": "https://atoutsolaire.ma,https://www.atoutsolaire.ma"
+        },
+        "dependsOn": ["db"]
+      },
+      {
+        "name": "db",
+        "type": "postgres",
+        "version": "15",
+        "env": {
+          "POSTGRES_USER": "atoutsolaire",
+          "POSTGRES_PASSWORD": "${DB_PASSWORD}",
+          "POSTGRES_DB": "atoutsolaire"
+        }
+      }
+    ],
+    "volumes": {
+      "postgres_data": {}
+    }
+  },
+  "envVariablesToCopy": [
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_GA_ID",
+    "NEXT_PUBLIC_FB_PIXEL_ID",
+    "NEXT_PUBLIC_WHATSAPP_NUMBER",
+    "NEXT_PUBLIC_CONTACT_PHONE",
+    "NEXT_PUBLIC_CONTACT_EMAIL",
+    "DB_PASSWORD",
+    "DATABASE_URL",
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SMTP_USER",
+    "SMTP_PASSWORD",
+    "ADMIN_EMAIL",
+    "SECRET_KEY",
+    "CORS_ORIGINS",
+    "APP_NAME",
+    "ENVIRONMENT",
+    "DEBUG"
+  ]
+}
